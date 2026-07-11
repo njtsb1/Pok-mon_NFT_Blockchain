@@ -1,11 +1,9 @@
-Daily learning
-
 # Create your own Pokémon NFT with Blockchain
 
 Project developed at the Bootcamp Blockchain Specialist Training, under the guidance of specialist [Cassiano Peres](https://github.com/cassianobrexbit/ "Cassiano Peres").
 We will use Solidity to develop our NFT token in the ERC-721 standard, simulating a Pokémon battle game.
 
-Technologies used:
+## Technologies used
 
 - [Solidity](https://www.soliditylang.org/)
 - [Ganache](https://archive.trufflesuite.com/ganache/)
@@ -13,23 +11,23 @@ Technologies used:
 - [Metamask](https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn)
 - [IPFS](https://ipfs.tech/)
 
-Challenge steps:
+## Challenge steps
 
 1. Implement the ERC-721 token
 
-![Screenshot](./img/01_Implement.png)
+![Screenshot](./docs/public/01_Implement.png)
 
 2. Publish on the blockchain
 
-![Screenshot](./img/02_Publish_blockchain.png)
+![Screenshot](./docs/public/02_Publish_blockchain.png)
 
 3. Conduct "battles" with Pokémon
 
-![Screenshot](./img/03_battles.png)
+![Screenshot](./docs/public/03_battles.png)
 
 4. Transfer NFTs between accounts
 
-![Screenshot](./img/04_Transfer.png)
+![Screenshot](./docs/public/04_Transfer.png)
 
 [LICENSE](/LICENSE)
 

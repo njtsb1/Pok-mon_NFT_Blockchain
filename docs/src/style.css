@@ -1,0 +1,119 @@
+:root{
+  --bg: #0b0b0c;
+  --panel: #0f1720;
+  --text: #e6eef8;
+  --muted: #9fb0c8;
+  --accent: #ffcc00;
+  --card-bg: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  --glass: rgba(255,255,255,0.03);
+  --focus: 3px solid rgba(255,204,0,0.18);
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(2,6,23,0.6);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color-scheme: dark;
+}
+
+/* Light theme overrides */
+:root.light{
+  --bg: #ffffff;
+  --panel: #f7f9fb;
+  --text: #0b1220;
+  --muted: #4b5563;
+  --accent: #0066cc;
+  --card-bg: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+  --glass: rgba(0,0,0,0.03);
+  --focus: 3px solid rgba(0,102,204,0.12);
+  --shadow: 0 6px 18px rgba(2,6,23,0.06);
+  color-scheme: light;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Accessibility helpers */
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+.sr-only{position:absolute;left:-9999px}
+
+/* Header */
+.site-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding:1rem;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.brand h1{margin:0;font-size:1.1rem}
+.subtitle{margin:0;font-size:0.85rem;color:var(--muted)}
+
+/* Controls */
+.controls{display:flex;align-items:center;gap:0.5rem}
+.icon-btn{
+  background:transparent;border:1px solid rgba(255,255,255,0.04);padding:0.5rem;border-radius:10px;color:var(--text);
+  display:inline-flex;align-items:center;gap:0.5rem;cursor:pointer;
+}
+.icon{width:20px;height:20px;display:block}
+#icon-sun{display:none}
+
+/* When light theme, show sun */
+:root.light #icon-sun{display:block}
+:root.light #icon-moon{display:none}
+
+/* Main layout */
+.main{flex:1;padding:1rem;max-width:1100px;margin:0 auto;width:100%}
+.hero{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;padding:1rem;border-radius:var(--radius);background:var(--card-bg);box-shadow:var(--shadow)}
+.hero-text h2{margin:0;font-size:1.4rem}
+.hero-text p{margin:0;color:var(--muted)}
+.hero-actions{display:flex;gap:0.5rem}
+
+/* Buttons */
+button.primary{
+  background:var(--accent);color:var(--panel);border:none;padding:0.6rem 0.9rem;border-radius:10px;cursor:pointer;font-weight:600;
+}
+button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:0.5rem 0.8rem;border-radius:10px;color:var(--text);cursor:pointer}
+button:focus{outline:none;box-shadow:var(--focus)}
+
+/* Cards list */
+.section-title{margin:1rem 0 0.5rem 0;color:var(--muted)}
+.pokemon-list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.pokemon-card{
+  background:var(--glass);padding:0.8rem;border-radius:12px;display:flex;gap:0.8rem;align-items:center;border:1px solid rgba(255,255,255,0.03)
+}
+.pokemon-card img{width:72px;height:72px;object-fit:cover;border-radius:10px;flex-shrink:0}
+.pokemon-info{flex:1}
+.pokemon-name{font-weight:700;margin:0}
+.pokemon-meta{color:var(--muted);font-size:0.9rem;margin-top:0.25rem}
+.card-actions{display:flex;flex-direction:column;gap:0.4rem}
+.small-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:0.4rem;border-radius:8px;color:var(--text);cursor:pointer}
+
+/* Battle area */
+.battle-form{display:grid;grid-template-columns:1fr 1fr auto;gap:0.5rem;align-items:end}
+.battle-log{margin-top:0.8rem;padding:0.6rem;border-radius:10px;background:var(--card-bg);min-height:48px;color:var(--muted)}
+
+/* Footer */
+.site-footer{padding:1rem;text-align:center;color:var(--muted);font-size:0.9rem}
+
+/* Dialogs */
+dialog{border:none;border-radius:12px;padding:1rem;background:var(--panel);color:var(--text);max-width:520px;width:calc(100% - 2rem)}
+.code-block{white-space:pre-wrap;overflow:auto;max-height:40vh;padding:0.6rem;background:rgba(0,0,0,0.06);border-radius:8px}
+dialog::backdrop{background:rgba(0,0,0,0.6)}
+
+/* Responsive */
+@media (max-width:640px){
+  .battle-form{grid-template-columns:1fr;align-items:stretch}
+  .hero{flex-direction:column;align-items:flex-start}
+}
+
+/* Focus visible for keyboard users */
+:focus-visible{outline:none;box-shadow:var(--focus)}

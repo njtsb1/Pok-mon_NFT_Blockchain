@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokemon NFT Blockchain</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <h1 id="app-title">Pokemon NFT Blockchain</h1>
+      <p id="app-subtitle" class="subtitle">Simulated ERC-721 battle demo</p>
+    </div>
+
+    <div class="controls" role="navigation" aria-label="Controls">
+      <div class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="visually-hidden">Language</label>
+        <select id="lang" aria-controls="main" title="Select language">
+          <option value="en">EN-US</option>
+          <option value="pt-BR">PT-BR</option>
+          <option value="es">ES</option>
+        </select>
+      </div>
+
+      <button id="theme-toggle" class="icon-btn" aria-pressed="false" aria-label="Toggle theme">
+        <!-- Moon icon (dark) / Sun icon (light) swapped by CSS/JS -->
+        <svg id="icon-moon" class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+        </svg>
+        <svg id="icon-sun" class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.76 4.84l-1.8-1.79L3.17 5.84l1.79 1.79 1.8-2.79zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm9-9v-2h-3v2h3zM6.76 19.16l-1.79 1.79 1.79 1.79 1.8-1.79-1.8-1.79zM17.24 19.16l1.8 1.79 1.79-1.79-1.79-1.79-1.8 1.79zM12 7a5 5 0 100 10 5 5 0 000-10z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title" class="sr-only">Main</h2>
+      <div class="hero">
+        <div class="hero-text">
+          <h2 id="title-large">Pokemon NFT Blockchain</h2>
+          <p id="description">Create, mint and simulate battles with ERC-721 style Pokemons (local simulation).</p>
+        </div>
+        <div class="hero-actions">
+          <button id="mint-btn" class="primary" aria-haspopup="dialog">Create New Pokemon</button>
+          <button id="show-solidity" class="secondary">Show Solidity</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards" aria-labelledby="cards-title">
+      <h3 id="cards-title" class="section-title">Your Pokemons</h3>
+      <ul id="pokemon-list" class="pokemon-list" role="list"></ul>
+    </section>
+
+    <section class="battle" aria-labelledby="battle-title">
+      <h3 id="battle-title" class="section-title">Battle Arena</h3>
+      <form id="battle-form" class="battle-form" aria-label="Battle form">
+        <label for="attacker">Attacker</label>
+        <select id="attacker" required></select>
+
+        <label for="defender">Defender</label>
+        <select id="defender" required></select>
+
+        <button type="submit" class="primary">Battle</button>
+      </form>
+      <div id="battle-log" class="battle-log" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <p id="footer-text">Local demo • No blockchain required • Accessible and responsive</p>
+  </footer>
+
+  <!-- Modal for creating new Pokemon -->
+  <dialog id="mint-modal" aria-labelledby="mint-title">
+    <form method="dialog" id="mint-form">
+      <h3 id="mint-title">Create New Pokemon</h3>
+
+      <label for="poke-name">Name</label>
+      <input id="poke-name" name="name" type="text" required maxlength="30" />
+
+      <label for="poke-img">Image</label>
+      <select id="poke-img" name="img" required>
+        <option value="./public/bulbasaur.jpeg">Bulbasaur</option>
+        <option value="./public/charmander.jpeg">Charmander</option>
+        <option value="./public/pikachu.jpeg">Pikachu</option>
+        <option value="./public/squirtle.jpeg">Squirtle</option>
+      </select>
+
+      <label for="owner-address">Owner Address (simulated)</label>
+      <input id="owner-address" name="owner" type="text" value="0xOwner" required />
+
+      <menu>
+        <button id="mint-submit" class="primary" type="submit">Mint</button>
+        <button id="mint-cancel" class="secondary" type="button">Cancel</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <!-- Modal for showing solidity code -->
+  <dialog id="solidity-modal" aria-labelledby="solidity-title">
+    <h3 id="solidity-title">Solidity Contract (Simulation)</h3>
+    <pre id="solidity-code" class="code-block" tabindex="0">
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.0;
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract PokeDIO is ERC721 {
+    struct Pokemon { string name; uint256 level; string img; }
+    Pokemon[] public pokemons;
+    address public gameOwner;
+    constructor() ERC721("PokeDIO","PKD"){ gameOwner = msg.sender; }
+    modifier onlyOwnerOf(uint256 _monsterId) {
+        require(ownerOf(_monsterId) == msg.sender, "Only owner can battle");
+        _;
+    }
+    function battle(uint256 _attackingPokemon, uint256 _defendingPokemon) public onlyOwnerOf(_attackingPokemon) {
+        require(_attackingPokemon < pokemons.length && _defendingPokemon < pokemons.length, "Invalid id");
+        require(_attackingPokemon != _defendingPokemon, "Cannot battle itself");
+        Pokemon storage attacker = pokemons[_attackingPokemon];
+        Pokemon storage defender = pokemons[_defendingPokemon];
+        if (attacker.level >= defender.level) { attacker.level += 2; defender.level += 1; }
+        else { attacker.level += 1; defender.level += 2; }
+    }
+    function createNewPokemon(string memory _name, address _to, string memory _img) public {
+        require(msg.sender == gameOwner, "Only game owner");
+        uint256 id = pokemons.length;
+        pokemons.push(Pokemon(_name,1,_img));
+        _safeMint(_to,id);
+    }
+}
+    </pre>
+    <menu>
+      <button id="solidity-close" class="primary">Close</button>
+    </menu>
+  </dialog>
+
+  <script src="./src/script.js" defer></script>
+</body>
+</html>
